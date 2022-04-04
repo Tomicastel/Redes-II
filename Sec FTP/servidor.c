@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <unistd.h>
 
 #define MAX_CLIENT 1
 #define BUFSIZE 1024
@@ -60,12 +61,12 @@ int main(int argc, char *argv[]){
 
         while((n = recv(newsock, data, BUFSIZE, 0)) > 0){
 
-            if(strcmp (data, "QUIT") == 0){
+            if(strcmp (data, "QUIT\r\n") == 0){
                 send(newsock, MSG_221, strlen(MSG_221),0);
                 close(newsock);
             }
-            else if (n < 0) {
-                error ("Error recv");
+            else {
+                send(newsock, "Operacion invalida", strlen("Operacion invalida"),0);
             }
         
         }     

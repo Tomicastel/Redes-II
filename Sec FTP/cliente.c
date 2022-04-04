@@ -22,9 +22,9 @@ char *read_input(){
     return NULL;
 }
 
-void quit(int sock,char *op){
+void quit(int sock){
 
-    send(sock,op,strlen(op),0);
+    send(sock,"QUIT\r\n",strlen("QUIT\r\n"),0);
     
     char data[BUFSIZE];
 
@@ -33,7 +33,7 @@ void quit(int sock,char *op){
         error("No se pudo leer");
     }
 
-    printf("Mensaje recibido del servidor: %s\n", data); 
+    printf("%s\n", data); 
 
     close(sock);
 }
@@ -48,10 +48,23 @@ void operacion(int sock){
         input = read_input();
         op = strtok(input, "");
     
-        if (strcmp (op, "QUIT") == 0){
-            quit(sock,op);
+        if (strcmp (op, "quit") == 0){
+            quit(sock);
             break;
+        } 
+        else {
+            send(sock,op,strlen(op),0);
+
+            memset(data,0,sizeof(data));
+             if (recv(sock, data, BUFSIZE,0) < 0) {
+                error("No se pudo leer");
+            }
+
+            printf("%s\n\n",data);
+
+            continue;
         }
+
         free(input);
     }
     free(input);
@@ -85,7 +98,7 @@ int main(int argc, char *argv[]){
         error("No se pudo leer");
     }
     
-    printf("Mensaje recibido del servidor: %s\n", data);
+    printf("%s\n", data);
 
     operacion(sock);
 
