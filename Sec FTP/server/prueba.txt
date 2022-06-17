@@ -1,0 +1,1 @@
+El Protocolo de transferencia de archivos (FTP), como protocolo de transferencia para archivos compartidos en red, se usa ampliamente en el software de aplicaciones de red. El objetivo de FTP es mejorar el intercambio de archivos y transferir datos de manera confiable y eficiente.
