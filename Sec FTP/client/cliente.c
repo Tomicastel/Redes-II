@@ -155,6 +155,10 @@ void get(int sock, char *file_name){
     data_port = ntohs(cliente.sin_port);
     data_port += 1;
 
+#ifdef DEBUG
+    printf("Mi nuevo puerto es %d\n",data_port);
+#endif
+
     cliente.sin_family = AF_INET;
     cliente.sin_addr.s_addr = inet_addr(IP);
     cliente.sin_port = htons(data_port);
@@ -225,7 +229,7 @@ void get(int sock, char *file_name){
 //Evaluo las operaciones recibidas y mando mensaje al servidor
 void operation(int sock){
 
-    char *input, *op, *param;
+    char *input = NULL, *op = NULL, *param = NULL;
     char data[BUFSIZE];
 
     while(1){

@@ -128,6 +128,8 @@ void retr(int sock, char *file_name){
         error("No se pudo crear el socket");
     }  
 
+    printf("hola");
+
 #ifdef DEBUG
     printf("Socket creado para transferencia de datos\n");
 #endif
@@ -186,7 +188,6 @@ void retr(int sock, char *file_name){
     
 }
 
-
 void operation(int sock){
 
     char op[OPSIZE], param[PSIZE];
@@ -205,13 +206,13 @@ void operation(int sock){
         token = strtok(data, " ");
         memset(op,0,sizeof(op));
         strcpy(op,token);
-
+    
         if (strcmp(op, "RETR") == 0){
             token = strtok(NULL," ");
         	strcpy(param,token);
             retr(sock,param);
         }
-        if (strcmp(op, "QUIT") == 0){
+        else if (strcmp(op, "QUIT") == 0){
             send(sock, MSG_221, strlen(MSG_221), 0);
             close(sock);
             break;
